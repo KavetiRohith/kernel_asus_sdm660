@@ -507,16 +507,16 @@ int mdss_dsi_panel_reset(struct mdss_panel_data *pdata, int enable)
 			gpio_set_value((ctrl_pdata->disp_en_gpio), 0);
 			gpio_free(ctrl_pdata->disp_en_gpio);
 		}
-#if defined(CONFIG_MACH_ASUS_X00T) && defined(CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_v27)
-		if (strstr(mdss_mdp_panel,
-			"qcom,mdss_dsi_td4310_1080p_video_txd") &&
-			syna_gesture_mode == 0)
-#endif
-		gpio_set_value((ctrl_pdata->rst_gpio), 0);
-#if defined(CONFIG_MACH_ASUS_X00T) && defined(CONFIG_TOUCHSCREEN_SYNAPTICS_DSX_v27)
-		else
-			gpio_set_value((ctrl_pdata->rst_gpio), 1);
-#endif
+
+		pr_info_once("qimk panel name:%s\n",mdss_mdp_panel);
+		if(strstr(mdss_mdp_panel,"qcom,mdss_dsi_td4310_1080p_video_txd")) {
+			if(!syna_gesture_mode)
+			    gpio_set_value((ctrl_pdata->rst_gpio), 0);		
+			else
+			    gpio_set_value((ctrl_pdata->rst_gpio), 1);
+		}else
+		     gpio_set_value((ctrl_pdata->rst_gpio), 1);
+
 		gpio_free(ctrl_pdata->rst_gpio);
 		if (gpio_is_valid(ctrl_pdata->lcd_mode_sel_gpio)) {
 			gpio_set_value(ctrl_pdata->lcd_mode_sel_gpio, 0);

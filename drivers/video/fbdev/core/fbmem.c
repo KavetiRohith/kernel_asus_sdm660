@@ -1224,12 +1224,10 @@ static long do_fb_ioctl(struct fb_info *info, unsigned int cmd,
 			return -ENODEV;
 		}
 		info->flags |= FBINFO_MISC_USEREVENT;
-#ifdef CONFIG_MACH_ASUS_X00T
-		if (arg == FB_BLANK_POWERDOWN) {
+/* Huaqin modify for No repetition lcd suspend by qimaokang at 2018/12/07 start*/
+		if (arg == FB_BLANK_POWERDOWN)
 			lcd_suspend_flag = true;
-			printk("[Display] FB_BLANK_POWERDOWN\n");
-		}
-#endif
+/* Huaqin modify for No repetition lcd suspend by qimaokang at 2018/12/07 end*/
 		ret = fb_blank(info, arg);
 		info->flags &= ~FBINFO_MISC_USEREVENT;
 		unlock_fb_info(info);

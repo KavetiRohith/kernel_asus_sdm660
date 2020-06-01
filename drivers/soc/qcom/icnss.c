@@ -5038,7 +5038,6 @@ static int __init icnss_initialize(void)
 	if (!icnss_ipc_log_long_context)
 		icnss_pr_err("Unable to create log long context\n");
 #endif
-
 	return platform_driver_register(&icnss_driver);
 }
 
